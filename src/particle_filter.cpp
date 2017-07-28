@@ -24,6 +24,31 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	//   x, y, theta and their uncertainties from GPS) and all weights to 1. 
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
+	default_random_engine gen;
+	num_particles = 100;
+	
+	//This lines creates a normal (Gaussian) distribution for x, y and psi
+	normal_distribution<double> noise_x(0, std[0]);
+	normal_distribution<double> noise_y(0, std[1]);
+	normal_distribution<double> noise_psi(0, std[2]);
+	
+	for(i=0;i<num_particles;i++){
+		Particle p;
+		p.id = i;
+		p.x = x;
+		p.y = y;
+		p.theta = theta;
+		p.weight = 1.0;
+		p.x += noise_x(gen);
+		p.y += noise_y(gen);
+		p.theta += noise_theta(gen);
+		
+		particles.push_back(p);
+		
+	}
+	
+	is_initialized = true;
+		
 
 }
 
@@ -32,6 +57,20 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	// NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
+	
+	//This lines creates a normal (Gaussian) distribution for x, y and psi
+	normal_distribution<double> noise_x(0, std[0]);
+	normal_distribution<double> noise_y(0, std[1]);
+	normal_distribution<double> noise_psi(0, std[2]);
+	
+	for(i=0;i<num_particles; i++){
+		
+		if(fabs(yaw_rate)< 0.0001){
+			particles[i].x = particles[i].x + 
+		}else{
+			
+		}
+	}
 
 }
 
